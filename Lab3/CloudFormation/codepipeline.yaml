@@ -112,8 +112,8 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Sub qa-${AWS::StackName}
-                TemplatePath: !Sub "bld::CloudFormation/sagemaker_prediction_endpoint.yaml"
-                TemplateConfiguration: "bld::CloudFormation/configuration_qa.json"
+                TemplatePath: !Sub "bld::Lab3/CloudFormation/sagemaker_prediction_endpoint.yaml"
+                TemplateConfiguration: "bld::Lab3/CloudFormation/configuration_qa.json"
               RunOrder: '1'
             - Name: TestEndpoint
               ActionTypeId:
@@ -150,8 +150,8 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Sub prod-${AWS::StackName}
-                TemplatePath: !Sub "bld::CloudFormation/sagemaker_prediction_endpoint.yaml"
-                TemplateConfiguration: "bld::CloudFormation/configuration_prod.json"
+                TemplatePath: !Sub "bld::Lab3/CloudFormation/sagemaker_prediction_endpoint.yaml"
+                TemplateConfiguration: "bld::Lab3/CloudFormation/configuration_prod.json"
               RunOrder: '2'
             - Name: TestEndpoint
               ActionTypeId:
@@ -190,9 +190,9 @@ Resources:
             build:
               commands:
                 - echo "Running prepdata.py"
-                - python3 Source/prepdata.py "${YourInitials}-ml-id-lab" "${YourInitials}-ml-lab-movielens"
+                - python3 Lab3/Source/prepdata.py "${YourInitials}-ml-id-lab" "${YourInitials}-ml-lab-movielens"
                 - echo "Running train.py"
-                - python3 Source/train.py "${SagemakerRole.Arn}" "${YourInitials}-ml-id-lab" "${AWS::StackName}" $CODEBUILD_RESOLVED_SOURCE_VERSION
+                - python3 Lab3/Source/train.py "${SagemakerRole.Arn}" "${YourInitials}-ml-id-lab" "${AWS::StackName}" $CODEBUILD_RESOLVED_SOURCE_VERSION
             post_build:
               commands:
                 - echo "Cleaning. We leave ua.test for later predictor tests"
@@ -228,7 +228,7 @@ Resources:
             build:
               commands:
                 - echo "Running test.py"
-                - python3 Source/test.py "qa-${AWS::StackName}" "prepdata_result.json" "CloudFormation/configuration_qa.json"
+                - python3 Lab3/Source/test.py "qa-${AWS::StackName}" "prepdata_result.json" "CloudFormation/configuration_qa.json"
       TimeoutInMinutes: 30
 
   TestEndpointProjectProd:
@@ -256,7 +256,7 @@ Resources:
             build:
               commands:
                 - echo "Running test.py"
-                - python3 Source/test.py "prod-${AWS::StackName}" "prepdata_result.json" "CloudFormation/configuration_prod.json"
+                - python3 Lab3/Source/test.py "prod-${AWS::StackName}" "prepdata_result.json" "CloudFormation/configuration_prod.json"
       TimeoutInMinutes: 30
 
 
