@@ -211,11 +211,11 @@ pprint.pprint(config_data_prod)
 json_config_data_qa = json.dumps(config_data_qa)
 json_config_data_prod = json.dumps(config_data_prod)
 
-f = open( './CloudFormation/configuration_qa.json', 'w' )
+f = open( './Lab3/CloudFormation/configuration_qa.json', 'w' )
 f.write(json_config_data_qa)
 f.close()
 
-f = open( './CloudFormation/configuration_prod.json', 'w' )
+f = open( './Lab3/CloudFormation/configuration_prod.json', 'w' )
 f.write(json_config_data_prod)
 f.close()
 
